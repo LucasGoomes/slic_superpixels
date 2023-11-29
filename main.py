@@ -5,6 +5,9 @@ from skimage import color
 import streamlit as st
 from slic import SLIC 
 
+def bgr_to_rgb(image):
+    return cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+
 def main():
     st.title('Segmentação de Imagem com SLIC')
 
@@ -13,7 +16,8 @@ def main():
     if uploaded_file is not None:
         file_bytes = np.asarray(bytearray(uploaded_file.read()), dtype=np.uint8)
         img = cv2.imdecode(file_bytes, 1)
-        st.image(img, caption='Imagem Original', use_column_width=True)
+        img_rgb = bgr_to_rgb(img)
+        st.image(img_rgb, caption='Imagem Original', use_column_width=True)
 
         # Converter para LAB
         img_CIElab = color.rgb2lab(img)
